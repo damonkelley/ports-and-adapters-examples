@@ -6,7 +6,9 @@ Architecture) architecture pattern. It is inspired by the
 example application that is linked to in the [original Hexagonal Architecture
 blog post](https://alistair.cockburn.us/hexagonal-architecture/).
 
-![Ports and Adapters style diagram of the Rater Application](./docs/rating-ports-and-adapters.svg)
+<p align="center">
+ <img src="./docs/rating-ports-and-adapters.svg" alt="Ports and Adapters style diagram of the Rater Application" />
+</p>
 
 ## Running the application
 
