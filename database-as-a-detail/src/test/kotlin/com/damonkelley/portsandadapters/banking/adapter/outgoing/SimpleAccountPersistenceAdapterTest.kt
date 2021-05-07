@@ -4,11 +4,13 @@ import com.damonkelley.portsandadapters.banking.domain.account
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import java.math.BigDecimal
 import java.util.UUID
 
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class SimpleAccountPersistenceAdapterTest(@Autowired val jpa: JPAAccountRecordDatabase) {
     @Test
     fun `it may not find an account`() {
