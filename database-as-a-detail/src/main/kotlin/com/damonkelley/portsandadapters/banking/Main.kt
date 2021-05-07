@@ -1,8 +1,8 @@
 package com.damonkelley.portsandadapters.banking
 
 import com.damonkelley.portsandadapters.banking.adapter.incoming.CommandLineIncomingAdapter
-import com.damonkelley.portsandadapters.banking.adapter.outgoing.JPAAccountRecordDatabase
-import com.damonkelley.portsandadapters.banking.adapter.outgoing.SimpleAccountPersistenceAdapter
+import com.damonkelley.portsandadapters.banking.adapter.outgoing.isomorphic.AccountsTable
+import com.damonkelley.portsandadapters.banking.adapter.outgoing.isomorphic.AccountPersistenceAdapter
 import com.damonkelley.portsandadapters.banking.application.IntraBankTransfer
 import com.damonkelley.portsandadapters.banking.domain.Account
 import org.springframework.boot.CommandLineRunner
@@ -15,9 +15,9 @@ import java.util.UUID
 @SpringBootApplication
 class Main {
     @Bean
-    fun onStartup(database: JPAAccountRecordDatabase): CommandLineRunner {
+    fun onStartup(database: AccountsTable): CommandLineRunner {
         return CommandLineRunner {
-            val repository = SimpleAccountPersistenceAdapter(database)
+            val repository = AccountPersistenceAdapter(database)
 
             val savings =
                 repository.save(Account(id = UUID.randomUUID(), name = "Savings", balance = BigDecimal("100")))

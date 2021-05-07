@@ -1,7 +1,7 @@
-package com.damonkelley.portsandadapters.banking.adapter.outgoing
+package com.damonkelley.portsandadapters.banking.adapter.outgoing.versions
 
 import com.damonkelley.portsandadapters.banking.domain.account
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +22,7 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
 
     @Test
     fun `it may not find an account`() {
-        assertEquals(null, adapter.findById(UUID.randomUUID()))
+        Assertions.assertEquals(null, adapter.findById(UUID.randomUUID()))
     }
 
     @Test
@@ -32,7 +32,7 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
         val savedAccount = adapter.save(checking)
         val foundAccount = adapter.findById(savedAccount.id)
 
-        assertEquals(savedAccount, foundAccount)
+        Assertions.assertEquals(savedAccount, foundAccount)
     }
 
     @Test
@@ -40,12 +40,12 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
         val checking = account(name = "Checking", balance = BigDecimal("130"))
 
         adapter.save(checking)
-        assertEquals(checking, adapter.findById(checking.id))
+        Assertions.assertEquals(checking, adapter.findById(checking.id))
 
         val checkingWithUpdatedBalance = checking.copy(balance = BigDecimal("120"))
         adapter.save(checkingWithUpdatedBalance)
 
-        assertEquals(checkingWithUpdatedBalance, adapter.findById(checking.id))
+        Assertions.assertEquals(checkingWithUpdatedBalance, adapter.findById(checking.id))
     }
 
     @Test
@@ -53,11 +53,11 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
         val checking = account(name = "Checking", balance = BigDecimal("130"))
 
         adapter.save(checking)
-        assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
 
         adapter.save(checking)
 
-        assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
     }
 
     @Test
@@ -66,12 +66,12 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
         val savings = account(name = "Savings", balance = BigDecimal("0"))
 
         adapter.save(checking)
-        assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
 
         checking.transfer(savings, BigDecimal.TEN)
 
         adapter.save(checking)
-        assertEquals(2, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(2, accountVersionsTable.findAllByAccountId(checking.id).size)
     }
 
     @Test
@@ -79,10 +79,10 @@ class VersionedAccountPersistenceAdapterTest(@Autowired val accountVersionsTable
         val checking = account(name = "Checking", balance = BigDecimal("130"))
 
         adapter.save(checking)
-        assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(1, accountVersionsTable.findAllByAccountId(checking.id).size)
 
         adapter.save(checking.copy(name = "Banana Stand"))
-        assertEquals(2, accountVersionsTable.findAllByAccountId(checking.id).size)
+        Assertions.assertEquals(2, accountVersionsTable.findAllByAccountId(checking.id).size)
 
         accountVersionsTable.findAllByAccountId(checking.id).let(::println)
     }

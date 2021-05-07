@@ -1,4 +1,4 @@
-package com.damonkelley.portsandadapters.banking.adapter.outgoing
+package com.damonkelley.portsandadapters.banking.adapter.outgoing.transactions
 
 import com.damonkelley.portsandadapters.banking.application.IntraBankTransfer
 import com.damonkelley.portsandadapters.banking.domain.Account
@@ -8,16 +8,14 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import javax.transaction.Transactional
 
-@Repository
+@Repository("transactions.accountsTable")
 interface AccountsTable : CrudRepository<PrivateTransactionsAccountPersistenceAdapter.AccountRecord, UUID>
 
 @Repository

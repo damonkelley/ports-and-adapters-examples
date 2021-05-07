@@ -1,4 +1,4 @@
-package com.damonkelley.portsandadapters.banking.adapter.outgoing
+package com.damonkelley.portsandadapters.banking.adapter.outgoing.isomorphic
 
 import com.damonkelley.portsandadapters.banking.domain.account
 import org.junit.jupiter.api.Assertions
@@ -11,10 +11,10 @@ import java.util.UUID
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class SimpleAccountPersistenceAdapterTest(@Autowired val jpa: JPAAccountRecordDatabase) {
+class AccountPersistenceAdapterTest(@Autowired val jpa: AccountsTable) {
     @Test
     fun `it may not find an account`() {
-        val adapter = SimpleAccountPersistenceAdapter(jpa)
+        val adapter = AccountPersistenceAdapter(jpa)
 
         Assertions.assertEquals(null, adapter.findById(UUID.randomUUID()))
     }
@@ -22,7 +22,7 @@ class SimpleAccountPersistenceAdapterTest(@Autowired val jpa: JPAAccountRecordDa
     fun `it finds and saves and account`() {
         val checking = account(name = "Checking", balance = BigDecimal("130"))
 
-        val adapter = SimpleAccountPersistenceAdapter(jpa)
+        val adapter = AccountPersistenceAdapter(jpa)
         val savedAccount = adapter.save(checking)
         val foundAccount = adapter.findById(savedAccount.id)
 

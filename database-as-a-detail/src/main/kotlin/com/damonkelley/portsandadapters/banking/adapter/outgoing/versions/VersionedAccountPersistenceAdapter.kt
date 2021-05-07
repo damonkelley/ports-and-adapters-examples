@@ -1,4 +1,4 @@
-package com.damonkelley.portsandadapters.banking.adapter.outgoing
+package com.damonkelley.portsandadapters.banking.adapter.outgoing.versions
 
 import com.damonkelley.portsandadapters.banking.application.IntraBankTransfer
 import com.damonkelley.portsandadapters.banking.domain.Account

@@ -1,4 +1,4 @@
-package com.damonkelley.portsandadapters.banking.adapter.outgoing
+package com.damonkelley.portsandadapters.banking.adapter.outgoing.isomorphic
 
 import com.damonkelley.portsandadapters.banking.application.IntraBankTransfer
 import com.damonkelley.portsandadapters.banking.domain.Account
@@ -11,10 +11,10 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
 
-@Repository
-interface JPAAccountRecordDatabase : CrudRepository<SimpleAccountPersistenceAdapter.AccountRecord, UUID>
+@Repository("isomorphic.accountsTable")
+interface AccountsTable : CrudRepository<AccountPersistenceAdapter.AccountRecord, UUID>
 
-class SimpleAccountPersistenceAdapter(private val database: JPAAccountRecordDatabase) : IntraBankTransfer.Repository {
+class AccountPersistenceAdapter(private val database: AccountsTable) : IntraBankTransfer.Repository {
 
     @Entity
     @Table(name = "accounts", schema = "isomorphic_accounts")
