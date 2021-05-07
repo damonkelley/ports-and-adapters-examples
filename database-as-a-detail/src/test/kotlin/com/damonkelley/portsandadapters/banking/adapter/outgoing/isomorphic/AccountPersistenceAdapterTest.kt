@@ -1,7 +1,7 @@
 package com.damonkelley.portsandadapters.banking.adapter.outgoing.isomorphic
 
 import com.damonkelley.portsandadapters.banking.domain.account
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -16,8 +16,9 @@ class AccountPersistenceAdapterTest(@Autowired val jpa: AccountsTable) {
     fun `it may not find an account`() {
         val adapter = AccountPersistenceAdapter(jpa)
 
-        Assertions.assertEquals(null, adapter.findById(UUID.randomUUID()))
+        assertEquals(null, adapter.findById(UUID.randomUUID()))
     }
+
     @Test
     fun `it finds and saves and account`() {
         val checking = account(name = "Checking", balance = BigDecimal("130"))
@@ -26,6 +27,6 @@ class AccountPersistenceAdapterTest(@Autowired val jpa: AccountsTable) {
         val savedAccount = adapter.save(checking)
         val foundAccount = adapter.findById(savedAccount.id)
 
-        Assertions.assertEquals(savedAccount, foundAccount)
+        assertEquals(savedAccount, foundAccount)
     }
 }

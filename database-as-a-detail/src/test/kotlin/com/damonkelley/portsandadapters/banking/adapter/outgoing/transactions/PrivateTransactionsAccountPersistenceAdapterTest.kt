@@ -2,6 +2,7 @@ package com.damonkelley.portsandadapters.banking.adapter.outgoing.transactions
 
 import com.damonkelley.portsandadapters.banking.domain.account
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -15,8 +16,12 @@ class PrivateTransactionsAccountPersistenceAdapterTest(
     @Autowired val accountsTable: AccountsTable,
     @Autowired val transactionsTable: TransactionsTable,
 ) {
+    lateinit var adapter: PrivateTransactionsAccountPersistenceAdapter
 
-    val adapter = PrivateTransactionsAccountPersistenceAdapter(accountsTable, transactionsTable)
+    @BeforeEach
+    fun setup() {
+        adapter = PrivateTransactionsAccountPersistenceAdapter(accountsTable, transactionsTable)
+    }
 
     @Test
     fun `it may not find an account`() {
