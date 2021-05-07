@@ -10,25 +10,27 @@ import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.Table
 
-interface AccountVersionsTable : CrudRepository<AccountVersion, BigInteger> {
-    fun findAllByAccountId(id: UUID): Collection<AccountVersion>
-    fun findFirstByAccountIdOrderByVersionDesc(id: UUID): Optional<AccountVersion>
+interface AccountVersionsTable : CrudRepository<VersionedAccountPersistenceAdapter.AccountVersion, BigInteger> {
+    fun findAllByAccountId(id: UUID): Collection<VersionedAccountPersistenceAdapter.AccountVersion>
+    fun findFirstByAccountIdOrderByVersionDesc(id: UUID): Optional<VersionedAccountPersistenceAdapter.AccountVersion>
 }
-
-@Entity
-data class AccountVersion(
-    @Id
-    @GeneratedValue
-    val version: BigInteger? = null,
-    val accountId: UUID,
-    val name: String,
-    val balance: BigDecimal
-)
-
 
 class VersionedAccountPersistenceAdapter(private val accountVersionsTable: AccountVersionsTable) :
     IntraBankTransfer.Repository {
+
+    @Entity
+    @Table(name = "account_versions", schema = "account_versioning")
+    data class AccountVersion(
+        @Id
+        @GeneratedValue
+        val version: BigInteger? = null,
+        val accountId: UUID,
+        val name: String,
+        val balance: BigDecimal
+    )
+
     override fun findById(id: UUID): Account? {
         return accountVersionsTable.findFirstByAccountIdOrderByVersionDesc(id)
             .map { Account(id = it.accountId, name = it.name, balance = it.balance) }

@@ -9,6 +9,7 @@ import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Table
 
 @Repository
 interface JPAAccountRecordDatabase : CrudRepository<SimpleAccountPersistenceAdapter.AccountRecord, UUID>
@@ -16,6 +17,7 @@ interface JPAAccountRecordDatabase : CrudRepository<SimpleAccountPersistenceAdap
 class SimpleAccountPersistenceAdapter(private val database: JPAAccountRecordDatabase) : IntraBankTransfer.Repository {
 
     @Entity
+    @Table(name = "accounts", schema = "isomorphic_accounts")
     data class AccountRecord(
         @Id
         @Column(name = "id")

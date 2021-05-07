@@ -27,16 +27,16 @@ interface TransactionsTable : CrudRepository<PrivateTransactionsAccountPersisten
     @Modifying
     @Query(
         value = """
-            INSERT INTO transactions("id", "account_id", "amount")
+            INSERT INTO private_transactions.transactions("id", "account_id", "amount")
             (
                 SELECT gen_random_uuid(), :accountId, :balance - SUM("amount")
-                    FROM transactions
+                    FROM private_transactions.transactions
                     WHERE account_id = :accountId
                     GROUP BY account_id
                     HAVING (:balance - SUM("amount")) != 0
                 UNION 
                 SELECT gen_random_uuid(), :accountId, :balance
-                    WHERE NOT EXISTS(SELECT 1 FROM transactions WHERE account_id = :accountId)
+                    WHERE NOT EXISTS(SELECT 1 FROM private_transactions.transactions WHERE account_id = :accountId)
             )
         """, nativeQuery = true
     )
@@ -53,6 +53,7 @@ class PrivateTransactionsAccountPersistenceAdapter(
 ) : IntraBankTransfer.Repository {
 
     @Entity
+    @Table(name = "accounts", schema = "private_transactions")
     data class AccountRecord(
         @Id
         val id: UUID,
@@ -60,7 +61,7 @@ class PrivateTransactionsAccountPersistenceAdapter(
     )
 
     @Entity(name = "Transaction")
-    @Table(name = "transactions")
+    @Table(name = "transactions", schema = "private_transactions")
     data class Transaction(
         @Id
         val id: UUID,
