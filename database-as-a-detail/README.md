@@ -3,7 +3,11 @@
 This is an example application that is referenced in an upcoming blog post.
 
 This application uses a Ports and Adapters style demonstrate how to keep persistence
-details separate from your domain model, and towards the outside of your application.
+details separate from your domain model, and pushed towards the outside of your application.
+
+<p align="center">
+ <img src="./docs/database-as-a-detail.png" alt="Ports and Adapters style diagram" />
+</p>
 
 ### Requirements
 
