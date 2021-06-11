@@ -1,6 +1,7 @@
 # A Color Coded Guide to Ports and Adapters
 
-This is an example application that is referenced in an upcoming blog post.
+This is an example application that is referenced
+in [A Color Coded Guide to Ports and Adapters](https://8thlight.com/blog/damon-kelley/2021/05/18/a-color-coded-guide-to-ports-and-adapters.html).
 
 This application uses the Ports and Adapters (a.k.a. Hexagonal
 Architecture) architecture pattern, and it is inspired by the
